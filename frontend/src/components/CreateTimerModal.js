@@ -53,7 +53,7 @@ const CreateTimerModal = ({ onClose, onTimerCreated }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 sm:p-6">
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-white/20 rounded-2xl p-6 sm:p-8 w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-white/20 rounded-2xl p-6 sm:p-8 w-full max-w-md md:max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center space-x-2">
             <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
@@ -69,7 +69,6 @@ const CreateTimerModal = ({ onClose, onTimerCreated }) => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            {/* FIX 1: Removed 'block' as 'flex' already sets display */}
             <label className="text-sm sm:text-base font-medium text-gray-300 mb-2 flex items-center space-x-2">
               <Type className="h-4 w-4" />
               <span>Timer Name</span>
@@ -125,18 +124,18 @@ const CreateTimerModal = ({ onClose, onTimerCreated }) => {
           </div>
 
           <div>
-            {/* FIX 2: Removed 'block' as 'flex' already sets display */}
             <label className="text-sm sm:text-base font-medium text-gray-300 mb-3 flex items-center space-x-2">
               <Tag className="h-4 w-4" />
               <span>Category</span>
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {/* TEMPORARY CHANGE: force 2 columns for all desktop to test if that resolves the issue */}
+            <div className="grid grid-cols-2 gap-3">
               {categories.map((category) => (
                 <button
                   key={category.value}
                   type="button"
                   onClick={() => handleInputChange('category', category.value)}
-                  className={`p-3 rounded-xl border-2 transition-all duration-200 text-sm sm:text-base ${
+                  className={`p-3 rounded-xl border-2 transition-all duration-200 text-sm sm:text-base text-wrap ${ // Added text-wrap
                     formData.category === category.value
                       ? `bg-gradient-to-r ${category.color} border-white/30 text-white`
                       : 'bg-white/5 border-white/20 text-gray-400 hover:text-white hover:bg-white/10'
