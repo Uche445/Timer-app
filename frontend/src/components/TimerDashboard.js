@@ -15,7 +15,7 @@ const TimerDashboard = ({ onFocusMode }) => {
 
   useEffect(() => {
     loadData();
-    
+
     // Update timers every second
     const interval = setInterval(updateActiveTimers, 1000);
     return () => clearInterval(interval);
@@ -37,7 +37,7 @@ const TimerDashboard = ({ onFocusMode }) => {
   };
 
   const updateActiveTimers = () => {
-    setTimers(currentTimers => 
+    setTimers(currentTimers =>
       currentTimers.map(timer => {
         if (timer.status === 'running') {
           const newRemaining = Math.max(0, timer.remaining_seconds - 1);
@@ -82,7 +82,7 @@ const TimerDashboard = ({ onFocusMode }) => {
 
   const stopTimer = async (timer) => {
     try {
-      const response = await api.updateTimer(timer.id, { 
+      const response = await api.updateTimer(timer.id, {
         status: 'stopped',
         remaining_seconds: timer.duration_seconds
       });
@@ -105,7 +105,7 @@ const TimerDashboard = ({ onFocusMode }) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    
+
     if (hrs > 0) {
       return `${hrs}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
@@ -143,23 +143,23 @@ const TimerDashboard = ({ onFocusMode }) => {
   }
 
   return (
-    <div className="py-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Timer Dashboard</h1>
-          <p className="text-gray-400">Manage your time with precision and style</p>
+    <div className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"> {/* Added responsive padding and max-width */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8"> {/* Adjusted for mobile stacking */}
+        <div className="mb-4 sm:mb-0"> {/* Added margin for mobile */}
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Timer Dashboard</h1> {/* Responsive font size */}
+          <p className="text-gray-400 text-base sm:text-lg">Manage your time with precision and style</p> {/* Responsive font size */}
         </div>
-        <div className="flex space-x-3">
+        <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 w-full sm:w-auto"> {/* Buttons stack on mobile */}
           <button
             onClick={() => setShowTemplates(true)}
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center space-x-2 shadow-lg shadow-purple-600/25"
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg shadow-purple-600/25 w-full sm:w-auto" // Full width on mobile
           >
             <Clock className="h-4 w-4" />
             <span>Quick Start</span>
           </button>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center space-x-2 shadow-lg shadow-emerald-600/25"
+            className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg shadow-emerald-600/25 w-full sm:w-auto" // Full width on mobile
           >
             <Plus className="h-4 w-4" />
             <span>New Timer</span>
@@ -168,35 +168,35 @@ const TimerDashboard = ({ onFocusMode }) => {
       </div>
 
       {timers.length === 0 ? (
-        <div className="text-center py-12">
+        <div className="text-center py-12 px-4 sm:px-6"> {/* Added responsive padding */}
           <Clock className="h-16 w-16 text-gray-600 mx-auto mb-4" />
           <h3 className="text-xl font-medium text-gray-400 mb-2">No timers yet</h3>
           <p className="text-gray-500 mb-6">Create your first timer to get started</p>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-xl font-medium transition-all duration-200"
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-xl font-medium transition-all duration-200 w-full sm:w-auto" // Full width on mobile
           >
             Create Timer
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-0"> {/* Added horizontal padding for small screens */}
           {timers.map((timer) => (
             <div
               key={timer.id}
               className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-2xl hover:shadow-purple-500/10 transition-all duration-300"
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center space-x-2">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4"> {/* Stack info on mobile */}
+                <div className="flex items-center space-x-2 mb-2 sm:mb-0"> {/* Margin for mobile */}
                   <div className={`p-2 rounded-lg bg-gradient-to-r ${getCategoryColor(timer.category)}`}>
                     {getCategoryIcon(timer.category)}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-white truncate">{timer.name}</h3>
+                    <h3 className="font-semibold text-white truncate text-lg sm:text-xl">{timer.name}</h3> {/* Responsive font size */}
                     <p className="text-xs text-gray-400 capitalize">{timer.category}</p>
                   </div>
                 </div>
-                <div className="flex space-x-1">
+                <div className="flex space-x-1 mt-2 sm:mt-0"> {/* Adjust margin for mobile */}
                   <button
                     onClick={() => onFocusMode(timer)}
                     className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
@@ -215,7 +215,7 @@ const TimerDashboard = ({ onFocusMode }) => {
               </div>
 
               <div className="flex items-center justify-center mb-6">
-                <div className="w-32 h-32">
+                <div className="w-32 h-32"> {/* CircularProgressbar has fixed size, good for consistency */}
                   <CircularProgressbar
                     value={getProgressPercentage(timer)}
                     text={formatTime(timer.remaining_seconds)}
@@ -230,10 +230,10 @@ const TimerDashboard = ({ onFocusMode }) => {
                 </div>
               </div>
 
-              <div className="flex justify-center space-x-2">
+              <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-2"> {/* Buttons stack on mobile */}
                 <button
                   onClick={() => toggleTimer(timer)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                  className={`flex items-center justify-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 w-full sm:w-auto ${
                     timer.status === 'running'
                       ? 'bg-yellow-600 hover:bg-yellow-700 text-white'
                       : 'bg-green-600 hover:bg-green-700 text-white'
@@ -253,7 +253,7 @@ const TimerDashboard = ({ onFocusMode }) => {
                 </button>
                 <button
                   onClick={() => stopTimer(timer)}
-                  className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-all duration-200"
+                  className="flex items-center justify-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-all duration-200 w-full sm:w-auto" // Full width on mobile
                 >
                   <Square className="h-4 w-4" />
                   <span>Stop</span>

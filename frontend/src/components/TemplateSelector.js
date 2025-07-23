@@ -30,25 +30,25 @@ const TemplateSelector = ({ templates, onClose, onTimerCreated }) => {
       onTimerCreated(response.data);
     } catch (error) {
       console.error('Error creating timer from template:', error);
-      alert('Error creating timer. Please try again.');
+      alert('Error creating timer. Please try again.'); // Consider replacing alert() here too
     } finally {
       setLoading(null);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-white/20 rounded-2xl p-6 w-full max-w-2xl shadow-2xl max-h-[80vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 sm:p-6">
+      <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-white/20 rounded-2xl p-6 sm:p-8 w-full max-w-2xl shadow-2xl max-h-[90vh] sm:max-h-[80vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-white flex items-center space-x-2">
-            <Clock className="h-5 w-5 text-purple-400" />
+          <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center space-x-2">
+            <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
             <span>Quick Start Templates</span>
           </h2>
           <button
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
           >
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5 sm:h-6 sm:w-6" />
           </button>
         </div>
 
@@ -56,7 +56,8 @@ const TemplateSelector = ({ templates, onClose, onTimerCreated }) => {
           {templates.map((template) => (
             <div
               key={template.id}
-              className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 hover:shadow-lg transition-all duration-300"
+              // FIX: Removed the multi-line comment from inside the className string
+              className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 sm:p-5 hover:shadow-lg transition-all duration-300"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center space-x-3">
@@ -64,12 +65,12 @@ const TemplateSelector = ({ templates, onClose, onTimerCreated }) => {
                     {getCategoryIcon(template.category)}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-white">{template.name}</h3>
+                    <h3 className="font-semibold text-white text-base sm:text-lg">{template.name}</h3>
                     <p className="text-sm text-gray-400 capitalize">{template.category}</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-medium text-white">{template.duration_minutes}m</p>
+                  <p className="text-sm sm:text-base font-medium text-white">{template.duration_minutes}m</p>
                 </div>
               </div>
 
@@ -94,9 +95,9 @@ const TemplateSelector = ({ templates, onClose, onTimerCreated }) => {
         </div>
 
         {templates.length === 0 && (
-          <div className="text-center py-8">
+          <div className="text-center py-8 px-4">
             <Clock className="h-12 w-12 text-gray-600 mx-auto mb-3" />
-            <p className="text-gray-400">No templates available</p>
+            <p className="text-gray-400 text-base sm:text-lg">No templates available</p>
           </div>
         )}
       </div>
